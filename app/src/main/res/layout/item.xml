@@ -2,10 +2,11 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="5dp">
+    android:layout_margin="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,14 +19,15 @@
             android:id="@+id/picture"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/temp"
             android:layout_gravity="top|center"
-            android:padding="5dp" />
+            android:padding="20dp"
+            app:tint="#ccc" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="#e6e6e6" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1.5dp"-->
+<!--            android:background="#e6e6e6" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +44,9 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:maxLines = "1"
+                android:textSize="18dp"
                 android:layout_marginTop="2dp"
                 android:text="New Text" />
 
