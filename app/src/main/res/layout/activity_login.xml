@@ -13,6 +13,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
+        app:tint="@color/teal_700"
         android:layout_marginTop="25dp"
         android:src="@drawable/logo"/>
 
@@ -68,31 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Login"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Not registered yet"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/tvRegisterHere"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="Register here"
-                android:textColor="@color/teal_700"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

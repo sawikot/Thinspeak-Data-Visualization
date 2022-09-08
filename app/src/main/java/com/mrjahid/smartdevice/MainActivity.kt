@@ -12,14 +12,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var customAdapter: CustomAdapter
     var recyclerView: RecyclerView? = null
 
+    val img: IntArray = intArrayOf(R.drawable.temp, R.drawable.pressure, R.drawable.alti, R.drawable.humidity, R.drawable.co2,R.drawable.tvoc,R.drawable.waterlevel)
+    val name = arrayOf("Temp", "Pressure", "Alti", "Humidity", "CO2", "TVOC", "WaterLevel")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val word: Word = Word("", "")
-        word.title = "Temp"
-        word.img = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/A_%28capital_and_small%29.svg/800px-A_%28capital_and_small%29.svg.png"
-        itemsList.add(word)
+        for ((i, item) in img.withIndex()) {
+            val word: Word = Word("", 0)
+            word.title = name[i]
+            word.img = item
+            itemsList.add(word)
+        }
 
         recyclerView = findViewById(R.id.recyclerView)
         customAdapter = CustomAdapter(itemsList)
