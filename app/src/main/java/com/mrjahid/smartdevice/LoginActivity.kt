@@ -9,10 +9,9 @@ import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.preference.PreferenceManager
 import okhttp3.*
 import okio.IOException
-import org.json.JSONObject
+import androidx.preference.PreferenceManager
 
 class LoginActivity : AppCompatActivity() {
     var btnLogin: Button? = null
@@ -50,7 +49,6 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 dialog.dismiss();
                 internet_Check_dialog()
-//                Log.e("JJJ", "errr")
                 e.printStackTrace()
             }
 
@@ -116,5 +114,10 @@ class LoginActivity : AppCompatActivity() {
     fun saveData(con: Context, variable: String?, data: String?) {
         val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(con)
         prefs.edit().putString(variable, data).commit()
+    }
+
+    fun getData(con: Context?, variable: String?, defaultValue: String?): String? {
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(con)
+        return prefs.getString(variable, defaultValue)
     }
 }

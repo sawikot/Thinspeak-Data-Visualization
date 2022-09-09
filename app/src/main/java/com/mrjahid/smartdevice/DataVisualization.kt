@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.preference.PreferenceManager
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
 import org.json.JSONObject
+import androidx.preference.PreferenceManager
 
 class DataVisualization : AppCompatActivity() {
 
@@ -19,11 +19,14 @@ class DataVisualization : AppCompatActivity() {
     lateinit var lineDataSet: LineDataSet
     lateinit var lineEntriesList: ArrayList<Entry>
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_visualization)
+        Log.e("KKK",getData(this,"field_type","").toString())
         lineChart = findViewById(R.id.idBarChart)
-        jsonFeed(getData(this,"responseData","").toString(),"field3")
+        jsonFeed(getData(this,"responseData","").toString(),getData(this,"field_type","").toString())
 
 
         lineDataSet = LineDataSet(lineEntriesList, "Bar Chart Data")

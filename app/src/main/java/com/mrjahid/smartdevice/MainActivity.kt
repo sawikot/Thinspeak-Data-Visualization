@@ -1,9 +1,11 @@
 package com.mrjahid.smartdevice
 
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -37,10 +39,16 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, DataVisualization::class.java)
         customAdapter.setOnItemClickListener(object : CustomAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
+                var i:Int=position+1
+                saveData(baseContext, "field_type", "field"+i)
                 startActivity(intent)
             }
 
 
         })
+    }
+    fun saveData(con: Context, variable: String?, data: String?) {
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(con)
+        prefs.edit().putString(variable, data).commit()
     }
 }
