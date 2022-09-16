@@ -36,6 +36,7 @@ class DataVisualization : AppCompatActivity() {
         lineChart = findViewById(R.id.idBarChart)
         jsonFeed(getData(this,"responseData","").toString(),getData(this,"field_type","").toString())
 
+
         lineChart.xAxis.valueFormatter = LineChartXAxisValueFormatter()
         lineChart.setTouchEnabled(true);
 
