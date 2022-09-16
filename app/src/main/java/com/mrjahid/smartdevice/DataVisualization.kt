@@ -37,6 +37,8 @@ class DataVisualization : AppCompatActivity() {
         jsonFeed(getData(this,"responseData","").toString(),getData(this,"field_type","").toString())
 
         lineChart.xAxis.valueFormatter = LineChartXAxisValueFormatter()
+        lineChart.setTouchEnabled(true);
+
 
         lineDataSet = LineDataSet(lineEntriesList, getData(this,"field_name","").toString()+" Chart Data")
         lineData = LineData(lineDataSet)
