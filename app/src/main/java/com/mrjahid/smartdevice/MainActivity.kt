@@ -9,33 +9,40 @@ import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import okhttp3.*
 import okio.IOException
-import java.lang.System.exit
+import org.json.JSONObject
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private val itemsList = ArrayList<Word>()
     private lateinit var customAdapter: CustomAdapter
     var recyclerView: RecyclerView? = null
 
-    val img: IntArray = intArrayOf(R.drawable.temp, R.drawable.pressure, R.drawable.alti, R.drawable.humidity, R.drawable.co2,R.drawable.tvoc,R.drawable.waterlevel)
+    val img: IntArray = intArrayOf(
+        R.drawable.temp,
+        R.drawable.pressure,
+        R.drawable.alti,
+        R.drawable.humidity,
+        R.drawable.co2,
+        R.drawable.tvoc,
+        R.drawable.waterlevel
+    )
     val name = arrayOf("Temp", "Pressure", "Alti", "Humidity", "CO2", "TVOC", "WaterLevel")
     private val client = OkHttpClient()
     lateinit var dialog: AlertDialog
+
+    private val field_value = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var actionBar = getSupportActionBar()
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val user = getData(this, "checkLogin", "")
         if (user == "login") {
@@ -47,12 +54,6 @@ class MainActivity : AppCompatActivity() {
 
             getShopData()
 
-            for ((i, item) in img.withIndex()) {
-                val word: Word = Word("", 0)
-                word.title = name[i]
-                word.img = item
-                itemsList.add(word)
-            }
 
             recyclerView = findViewById(R.id.recyclerView)
             customAdapter = CustomAdapter(itemsList)
@@ -65,8 +66,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DataVisualization::class.java)
             customAdapter.setOnItemClickListener(object : CustomAdapter.onItemClickListener {
                 override fun onItemClick(position: Int) {
-                    var i:Int=position+1
-                    saveData(baseContext, "field_type", "field"+i)
+                    var i: Int = position + 1
+                    saveData(baseContext, "field_type", "field" + i)
                     saveData(baseContext, "field_name", name[position])
                     startActivity(intent)
                 }
@@ -77,12 +78,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu,menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        when (item.itemId) {
             R.id.logout -> {
                 saveData(baseContext, "checkLogin", "logout")
                 val intent = Intent(this, LoginActivity::class.java)
@@ -123,7 +124,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     fun getShopData() {
         dialog.show()
 
@@ -148,6 +148,36 @@ class MainActivity : AppCompatActivity() {
 
                         var responseData: String = response.body!!.string()
                         saveData(baseContext, "responseData", responseData)
+
+                        val ob = JSONObject(responseData)
+                        val arr = ob.getJSONArray("feeds")
+
+                        var last_index = arr.length() - 1
+
+
+                        field_value.add(arr.getJSONObject(last_index).get("field1").toString())
+                        field_value.add(arr.getJSONObject(last_index).get("field2").toString())
+                        field_value.add(arr.getJSONObject(last_index).get("field3").toString())
+                        field_value.add(arr.getJSONObject(last_index).get("field4").toString())
+                        field_value.add(arr.getJSONObject(last_index).get("field5").toString())
+                        field_value.add(arr.getJSONObject(last_index).get("field6").toString())
+                        field_value.add(arr.getJSONObject(last_index).get("field7").toString())
+
+
+                        for ((i, item) in img.withIndex()) {
+                            val word: Word = Word("", 0)
+                            if(field_value[i] == "null"){
+                                word.title = name[i] +": 0"
+                            }else{
+                                word.title = name[i] +": "+ field_value[i]
+                            }
+
+                            word.img = item
+                            itemsList.add(word)
+                        }
+
+                        recyclerView!!.smoothScrollToPosition(0)
+                        customAdapter.notifyDataSetChanged()
 
                         dialog.dismiss();
 

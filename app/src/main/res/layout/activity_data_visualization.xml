@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--on below line we are creating a swipe to refresh layout-->
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,6 +15,23 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/idBarChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/warning_box" />
 
-</LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:id="@+id/warning_box"
+       android:layout_alignParentBottom="true"
+       android:layout_height="wrap_content">
+       <TextView
+           android:id="@+id/warning_text"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:padding="15dp"
+           android:background="#ffcc00"
+           android:textSize="18sp"
+           android:textColor="#fff"
+           android:visibility="gone"/>
+   </LinearLayout>
+
+</RelativeLayout>

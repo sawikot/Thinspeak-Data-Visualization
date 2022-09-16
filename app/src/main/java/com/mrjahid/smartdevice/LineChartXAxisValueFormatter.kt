@@ -2,20 +2,23 @@ package com.mrjahid.smartdevice
 
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
-    override fun getFormattedValue(value: Float): String {
+    override fun getFormattedValue(value: Float): String? {
 
-        // Convert float value to date string
-        // Convert from seconds back to milliseconds to format time  to show to the user
-        val emissionsMilliSince1970Time = value.toLong() * 1000
+        return getDate(value.toLong(), "dd/MM/yyyy")
+    }
 
-        // Show time in local version
-        val timeMilliseconds = Date(emissionsMilliSince1970Time)
-        val dateTimeFormat: DateFormat =
-            DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
-        return dateTimeFormat.format(timeMilliseconds)
+    fun getDate(milliSeconds: Long, dateFormat: String?): String? {
+        // Create a DateFormatter object for displaying date in specified format.
+        val formatter = SimpleDateFormat(dateFormat)
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.timeInMillis = milliSeconds
+        return formatter.format(calendar.time)
     }
 }
